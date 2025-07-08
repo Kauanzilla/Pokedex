@@ -47,7 +47,8 @@
 
 <body>
     <div id="divMestra" style="display: flex; align-items: center; justify-content: space-between; height: 100%;">
-        <div id="esquerda" style="display: flex; flex-direction: column; align-items: start; justify-content: start; width: 50%; height: 100%; background-image:URL(https://sdmntprwestus2.oaiusercontent.com/files/00000000-ee08-61f8-a17c-ca0962dd31f6/raw?se=2025-07-07T02%3A39%3A21Z&sp=r&sv=2024-08-04&sr=b&scid=9ef3dbb1-7cbb-5f2d-b8dc-0acd558e2336&skoid=61180a4f-34a9-42b7-b76d-9ca47d89946d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-07-06T04%3A55%3A37Z&ske=2025-07-07T04%3A55%3A37Z&sks=b&skv=2024-08-04&sig=sLvJnFAw7912KhIqgDb91qXCjdMhq0HPXsApNkIEw/E%3D); background-size: cover;">
+        <div id="esquerda"
+            style="display: flex; flex-direction: column; align-items: start; justify-content: start; width: 50%; height: 100%; background-image: url('pokemon.png'); background-size: cover;">
             <div id="pesquisa"
                 style="display: flex;flex-direction: row; align-items: center; margin-top: -10px; background-color:  ghostwhite; width: 600px; border-radius: 30px; margin-top: 5px; margin-left: 5px; border: 2px solid black;">
                 <p
@@ -59,7 +60,8 @@
                 <button onclick="procurarpoke()" class="bt" style="margin-left: 15px;">CONFIRMAR</button>
                 <br>
             </div>
-            <div id="lista" style="display: flex; flex-direction: column; align-items: center;">
+            <div id="lista"
+                style="display: flex; flex-direction: column; align-items: center; margin-left: 230px; margin-top: 30px;">
                 <h2>Lista de Pokemons</h2>
                 <div style="display: flex; flex-direction: row; align-items: center;">
                     <p style="margin-left: 15px; font-weight: 550;">Ver</p>
@@ -68,12 +70,13 @@
                     <input id="nfinal" style="margin-left: 10px; width: 40px; height: 18px;">
                     <button onclick="lista()" class="bt" style="margin-left: 15px;">OK</button>
                 </div>
-                <div id="mostrarlista" style="margin-left: 255px; margin-top: 25px;">
+                <div id="mostrarlista" style="margin-top: 25px; font-weight: bold; font-size: 20px; color: black">
 
                 </div>
             </div>
         </div>
-        <div id="direita" style="display: flex;width: 50%; height: 100%; align-items: start; justify-content: center; background-color: azure; background-image: url(https://i.pinimg.com/736x/6e/52/e0/6e52e0a37e4194b7766ffbde181a0434.jpg); background-size: cover;">
+        <div id="direita"
+            style="display: flex;width: 50%; height: 100%; align-items: start; justify-content: center; background-color: azure; background-image: url(https://i.pinimg.com/736x/6e/52/e0/6e52e0a37e4194b7766ffbde181a0434.jpg); background-size: cover;">
             <div
                 style="display: flex; flex-direction: column; justify-content: center; margin-top: 260px; align-items: center;">
                 <div id="fotos"
@@ -89,8 +92,13 @@
                         <p style="margin-top: 10px; font-weight: bold;">Shiny</p>
                     </div>
                 </div>
-                <h3 id="name" style="font-size: 30px; margin-top: 5px;">?????</h3>
-                <h4 id="peso" style="margin-top: -12px;"></h4>
+                <div style="display: flex; align-items: center; flex-direction: column; width:70%;">
+                    <h3 id="name" style="font-size: 30px; margin-top: 5px;">?????</h3>
+                    <h4 id="peso" style="margin-top: -12px;"></h4>
+                    <h4 id="tipo"></h4>
+                    <h4 id="habilidades"></h4>
+                    <h4 id="games"></h4>
+                </div>
             </div>
         </div>
     </div>
@@ -110,12 +118,49 @@
         var shiny = document.getElementById("ftshiny")
         var name = document.getElementById("name")
         var divfotos = document.getElementById("fotos")
+        var tipo = document.getElementById("tipo")
+        var habilidades = document.getElementById("habilidades")
+        var games = document.getElementById("games")
+
+        tipo.innerHTML = ""
+        habilidades.innerHTML = ""
+        games.innerHTML = ""
+
 
         normal.src = pokemon.sprites.front_default
         shiny.src = pokemon.sprites.front_shiny
         name.textContent = `${pokemon.name} ID: ${pokemon.id}`
         divfotos.style.visibility = "visible"
         peso.textContent = `Peso:${(pokemon.weight / 2.20462).toFixed(2)}Kg   Altura:${(pokemon.height * 0.3048).toFixed(2)}M`
+        tipo.innerHTML = "Elementos: "
+        habilidades.innerHTML = "Habilidades: "
+        games.innerHTML = "Games: "
+
+        for (let i = 0; i < pokemon.types.length; i++) {
+            if (i == pokemon.types.length - 1) {
+                tipo.innerHTML += `${pokemon.types[i].type.name}. `
+            } else {
+                tipo.innerHTML += `${pokemon.types[i].type.name}, `
+            }
+        }
+
+
+        for (let i = 0; i < pokemon.abilities.length; i++) {
+            if (i == pokemon.abilities.length - 1) {
+                habilidades.innerHTML += `${pokemon.abilities[i].ability.name}. `
+            } else {
+                habilidades.innerHTML += `${pokemon.abilities[i].ability.name}, `
+            }
+        }
+
+        for (let i = 0; i < pokemon.game_indices.length; i++) {
+            if (i == pokemon.types.length - 1) {
+                games.innerHTML += `${pokemon.game_indices[i].version.name}. `
+            } else {
+                games.innerHTML += `${pokemon.game_indices[i].version.name}, `
+            }
+        }
+
 
     }
     async function lista() {
